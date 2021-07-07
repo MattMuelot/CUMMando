@@ -286,7 +286,7 @@ def main_menu():
     while running:
         screen.blit(MENUBG, (0, 0))
         title_label = title_font.render('Press Space To Begin...', True, (255, 255, 255))
-        setting_label = title_font.render('Press S To View Settings...', True, (255, 255, 255))
+        setting_label = title_font.render('Press C To View Controls...', True, (255, 255, 255))
         screen.blit(title_label, (275, 370))
         screen.blit(setting_label, (275, 425))
         pygame.display.update()
@@ -304,7 +304,7 @@ def main_menu():
                         pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
                         pygame.mixer.music.play(-1)
                         pygame.mixer.music.set_volume(.1)
-                elif event.key == pygame.K_s:
+                elif event.key == pygame.K_c:
                     result = settings_screen()
                     if result is False:
                         running = False
