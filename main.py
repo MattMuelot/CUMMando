@@ -38,6 +38,7 @@ MCG = pygame.image.load(os.path.join('Assets', 'shootermedal.png')).convert_alph
 NUT = pygame.image.load(os.path.join('Assets', 'nutmedal.png')).convert_alpha()
 KHAN = pygame.image.load(os.path.join('Assets', 'khan.png')).convert_alpha()
 MENUBG = pygame.image.load(os.path.join('Assets', 'menubg.png')).convert_alpha()
+PMENU = pygame.image.load(os.path.join('Assets', 'pausemenu.png')).convert_alpha()
 
 
 class Mover:
@@ -142,6 +143,9 @@ def collide(obj1, obj2):
     return obj1.mask.overlap(obj2.mask, (offset_x, offset_y)) is not None
 
 
+clock = pygame.time.Clock()
+
+
 def main():
     pygame.mixer.music.load(os.path.join('Assets', 'lovegun.mp3'))
     pygame.mixer.music.play(-1)
@@ -154,8 +158,6 @@ def main():
     pussies = []
     wave_length = 10
     enemy_vel = 1
-
-    clock = pygame.time.Clock()
 
     def redraw_window():
         screen.blit(BACKGROUND, (0, 0))  # Draw background
@@ -205,6 +207,11 @@ def main():
                 if event.key == pygame.K_SPACE:
                     moan.play()
                     dick.shoot()
+                if event.key == pygame.K_p:
+                    pause_game()
+                    pygame.mixer.music.load(os.path.join('Assets', 'lovegun.mp3'))
+                    pygame.mixer.music.play(-1)
+                    pygame.mixer.music.set_volume(.1)
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and dick.x - player_vel > 0:  # LEFT
@@ -226,6 +233,28 @@ def main():
         redraw_window()
         
     pygame.quit()
+
+
+def pause_game():
+    paused = True
+    pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(.1)
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    paused = False
+
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+        screen.blit(PMENU, (0, 0))
+        pygame.display.update()
+        clock.tick(30)
 
 
 def main_menu():
@@ -250,6 +279,7 @@ def main_menu():
                     pygame.mixer.music.set_volume(.1)
 
     pygame.quit()
+    quit()
 
 
 main_menu()
