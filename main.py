@@ -224,6 +224,8 @@ def main():
                     running = False
         dick.move_cum(10, pussies)
         redraw_window()
+        
+    pygame.quit()
 
 
 def main_menu():
