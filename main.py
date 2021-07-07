@@ -208,10 +208,13 @@ def main():
                     moan.play()
                     dick.shoot()
                 if event.key == pygame.K_p:
-                    pause_game()
-                    pygame.mixer.music.load(os.path.join('Assets', 'lovegun.mp3'))
-                    pygame.mixer.music.play(-1)
-                    pygame.mixer.music.set_volume(.1)
+                    result = pause_game()
+                    if result is False:
+                        return False
+                    else:
+                        pygame.mixer.music.load(os.path.join('Assets', 'lovegun.mp3'))
+                        pygame.mixer.music.play(-1)
+                        pygame.mixer.music.set_volume(.1)
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a] and dick.x - player_vel > 0:  # LEFT
@@ -246,10 +249,15 @@ def pause_game():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
                     paused = False
-
                 elif event.key == pygame.K_q:
                     pygame.quit()
                     quit()
+                elif event.key == pygame.K_r:
+                    result = main()
+                    if result is False:
+                        return False
+                    else:
+                        main_menu()
         screen.blit(PMENU, (0, 0))
         pygame.display.update()
         clock.tick(30)
