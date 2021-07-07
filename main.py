@@ -39,6 +39,7 @@ NUT = pygame.image.load(os.path.join('Assets', 'nutmedal.png')).convert_alpha()
 KHAN = pygame.image.load(os.path.join('Assets', 'khan.png')).convert_alpha()
 MENUBG = pygame.image.load(os.path.join('Assets', 'menubg.png')).convert_alpha()
 PMENU = pygame.image.load(os.path.join('Assets', 'pausemenu.png')).convert_alpha()
+SMENU = pygame.image.load(os.path.join('Assets', 'settings.png')).convert_alpha()
 
 
 class Mover:
@@ -263,6 +264,19 @@ def pause_game():
         clock.tick(30)
 
 
+def settings_screen():
+    running = True
+    while running:
+        screen.blit(SMENU, (0, 0))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_m:
+                    main_menu()
+
+
 def main_menu():
     pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
     pygame.mixer.music.play(-1)
@@ -272,7 +286,9 @@ def main_menu():
     while running:
         screen.blit(MENUBG, (0, 0))
         title_label = title_font.render('Press Space To Begin...', True, (255, 255, 255))
+        setting_label = title_font.render('Press S To View Settings...', True, (255, 255, 255))
         screen.blit(title_label, (275, 370))
+        screen.blit(setting_label, (275, 425))
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -288,6 +304,13 @@ def main_menu():
                         pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
                         pygame.mixer.music.play(-1)
                         pygame.mixer.music.set_volume(.1)
+                elif event.key == pygame.K_s:
+                    result = settings_screen()
+                    if result is False:
+                        running = False
+                    else:
+                        pass
+
 
     pygame.quit()
     quit()
