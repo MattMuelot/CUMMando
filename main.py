@@ -19,6 +19,9 @@ mcgavin = pygame.mixer.Sound(os.path.join('Assets', 'mcgavin.ogg'))
 sheyell = pygame.mixer.Sound(os.path.join('Assets', 'sheyell.ogg'))
 nutmed = pygame.mixer.Sound(os.path.join('Assets', 'nut.ogg'))
 khanmed = pygame.mixer.Sound(os.path.join('Assets', 'khan.ogg'))
+pygame.mixer.Sound.set_volume(nutmed, .4)
+pygame.mixer.Sound.set_volume(mcgavin, .4)
+pygame.mixer.Sound.set_volume(khanmed, .4)
 pygame.mixer.Sound.set_volume(sheyell, .5)
 twins = pygame.mixer.Sound(os.path.join('Assets', 'twins.ogg'))
 twins.set_volume(.4)
@@ -37,6 +40,7 @@ VAG = pygame.image.load(os.path.join('Assets', 'vag.png')).convert_alpha()
 MCG = pygame.image.load(os.path.join('Assets', 'shootermedal.png')).convert_alpha()
 NUT = pygame.image.load(os.path.join('Assets', 'nutmedal.png')).convert_alpha()
 KHAN = pygame.image.load(os.path.join('Assets', 'khan.png')).convert_alpha()
+MENUBG = pygame.image.load(os.path.join('Assets', 'menubg.png')).convert_alpha()
 
 
 class Mover:
@@ -216,9 +220,28 @@ def main():
                 dick.lives -= 1
                 if dick.lives < 1:
                     print(f'Final Score: {score}')
-                    running = False
+                    return False
         dick.move_cum(10, pussies)
         redraw_window()
 
 
-main()
+def main_menu():
+    running = True
+    title_font = pygame.font.SysFont('comicsans', 50)
+    while running:
+        screen.blit(MENUBG, (0, 0))
+        title_label = title_font.render('Press Space To Begin...', True, (255, 255, 255))
+        screen.blit(title_label, (275, 370))
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    result = main()
+                    if result is False:
+                        running = False
+    pygame.quit()
+
+
+main_menu()
