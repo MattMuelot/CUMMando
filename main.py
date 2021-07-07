@@ -9,9 +9,6 @@ font_color = (0, 0, 0)
 # Load audio files
 
 pygame.mixer.init(buffer=512)
-pygame.mixer.music.load(os.path.join('Assets', 'lovegun.mp3'))
-pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(.1)
 moan = pygame.mixer.Sound(os.path.join('Assets', 'ooh.ogg'))
 pygame.mixer.Sound.set_volume(moan, .9)
 shemoan = pygame.mixer.Sound(os.path.join('Assets', 'shemoan.ogg'))
@@ -146,6 +143,9 @@ def collide(obj1, obj2):
 
 
 def main():
+    pygame.mixer.music.load(os.path.join('Assets', 'lovegun.mp3'))
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(.1)
     running = True
     FPS = 60
     player_vel = 10
@@ -219,13 +219,17 @@ def main():
                 sheyell.play()
                 dick.lives -= 1
                 if dick.lives < 1:
-                    print(f'Final Score: {score}')
-                    return False
+                    with open('scores.txt', 'a') as f:
+                        f.write(f'You scored: {score}\n')
+                    running = False
         dick.move_cum(10, pussies)
         redraw_window()
 
 
 def main_menu():
+    pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(.1)
     running = True
     title_font = pygame.font.SysFont('comicsans', 50)
     while running:
@@ -238,9 +242,11 @@ def main_menu():
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    result = main()
-                    if result is False:
-                        running = False
+                    main()
+                    pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
+                    pygame.mixer.music.play(-1)
+                    pygame.mixer.music.set_volume(.1)
+
     pygame.quit()
 
 
