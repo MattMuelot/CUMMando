@@ -202,7 +202,7 @@ def main():
                 pussies.append(pussy)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                return False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     moan.play()
@@ -231,8 +231,6 @@ def main():
                     running = False
         dick.move_cum(10, pussies)
         redraw_window()
-        
-    pygame.quit()
 
 
 def pause_game():
@@ -273,10 +271,15 @@ def main_menu():
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    main()
-                    pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
-                    pygame.mixer.music.play(-1)
-                    pygame.mixer.music.set_volume(.1)
+                    result = main()
+                    if result is False:
+                        running = False
+                    else:
+                        # running = False
+                        pygame.mixer.init(buffer=512)
+                        pygame.mixer.music.load(os.path.join('Assets', 'bread.mp3'))
+                        pygame.mixer.music.play(-1)
+                        pygame.mixer.music.set_volume(.1)
 
     pygame.quit()
     quit()
